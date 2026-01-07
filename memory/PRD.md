@@ -42,14 +42,26 @@ Build a resort booking page - single page site for Eden Rest resort with peach a
   - Guest count selector
   - Contact information form
   - Booking summary with price calculation
+  - Real-time availability checking based on blocked rooms
   - Toast notifications for confirmations
 
-✅ **Mock Data** (`/app/frontend/src/mock.js`)
+✅ **Admin Panel** (`/app/frontend/src/pages/AdminLogin.jsx` & `AdminDashboard.jsx`)
+  - Simple authentication (username: admin, password: admin123)
+  - Room blocking interface for offline bookings
+  - Select room type and specific unit to block
+  - Date range selection for blocking
+  - List of currently blocked rooms with unblock option
+  - Room status overview showing available/blocked units visually
+  - Navigation between admin panel and main website
+
+✅ **Mock Data** (`/app/frontend/src/mock.js` & `/app/frontend/src/mockAdmin.js`)
   - Resort information
   - 2 room types (5 Double, 4 Single)
   - 4 testimonials
   - 8 gallery images
   - Mock booking storage (frontend-only)
+  - Mock blocked bookings with date conflict detection
+  - Availability calculation based on blocked rooms
 
 ✅ **Styling & Theme**
   - Custom peach color palette (50-600)
