@@ -52,6 +52,23 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			peach: {
+  				'50': 'hsl(var(--peach-50))',
+  				'100': 'hsl(var(--peach-100))',
+  				'200': 'hsl(var(--peach-200))',
+  				'300': 'hsl(var(--peach-300))',
+  				'400': 'hsl(var(--peach-400))',
+  				'500': 'hsl(var(--peach-500))',
+  				'600': 'hsl(var(--peach-600))'
+  			},
+  			green: {
+  				'50': 'hsl(var(--green-50))',
+  				'100': 'hsl(var(--green-100))',
+  				'600': 'hsl(var(--green-600))',
+  				'700': 'hsl(var(--green-700))',
+  				'800': 'hsl(var(--green-800))',
+  				'900': 'hsl(var(--green-900))'
   			}
   		},
   		keyframes: {
