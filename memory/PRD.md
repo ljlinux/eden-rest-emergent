@@ -30,7 +30,7 @@ Build a resort booking page - single page site for Eden Rest resort with peach a
 ✅ **Landing Page** (`/app/frontend/src/pages/ResortHome.jsx`)
   - Fixed header with navigation
   - Hero section with resort imagery
-  - Rooms showcase with 3 room types (Double, Deluxe Double, Single)
+  - Rooms showcase with 2 room types (5 Double rooms, 4 Single rooms)
   - Photo gallery (8 images)
   - Testimonials section (4 reviews)
   - Contact section with resort information
@@ -46,7 +46,7 @@ Build a resort booking page - single page site for Eden Rest resort with peach a
 
 ✅ **Mock Data** (`/app/frontend/src/mock.js`)
   - Resort information
-  - 3 room types (5 Double, 3 Deluxe Double, 4 Single)
+  - 2 room types (5 Double, 4 Single)
   - 4 testimonials
   - 8 gallery images
   - Mock booking storage (frontend-only)

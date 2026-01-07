@@ -72,7 +72,7 @@ const ResortHome = () => {
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">Choose from our carefully designed rooms, each offering comfort and elegance</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {roomTypes.map((room) => (
               <Card key={room.id} className="overflow-hidden hover:shadow-2xl transition-shadow duration-300 border-peach-200">
                 <div className="relative h-64 overflow-hidden">

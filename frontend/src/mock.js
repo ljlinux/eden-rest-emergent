@@ -22,16 +22,6 @@ export const roomTypes = [
     maxGuests: 2
   },
   {
-    id: "double-2",
-    type: "Deluxe Double Room",
-    available: 3,
-    price: 249,
-    description: "Luxurious double room with premium furnishings and enhanced amenities",
-    amenities: ["King Size Bed", "Sea View", "Jacuzzi", "Mini Bar", "Free WiFi", "Breakfast Included"],
-    image: "https://images.unsplash.com/photo-1759223198981-661cadbbff36?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMHJvb20lMjBjbGFzc2ljfGVufDB8fHx8MTc2Nzc1NjI2M3ww&ixlib=rb-4.1.0&q=85",
-    maxGuests: 2
-  },
-  {
     id: "single-1",
     type: "Single Room",
     available: 4,
