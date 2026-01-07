@@ -1,3 +1,5 @@
+import { roomTypes } from './mock';
+
 // Mock admin authentication
 export const adminCredentials = {
   username: "admin",
