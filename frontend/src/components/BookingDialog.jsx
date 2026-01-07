@@ -6,10 +6,12 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Calendar } from './ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Calendar as CalendarIcon, Users } from 'lucide-react';
+import { Calendar as CalendarIcon, Users, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { roomTypes, createBooking } from '../mock';
+import { getAvailableRoomCount } from '../mockAdmin';
 import { useToast } from '../hooks/use-toast';
+import { Alert, AlertDescription } from './ui/alert';
 
 const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
   const { toast } = useToast();
@@ -22,12 +24,23 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
     email: '',
     phone: ''
   });
+  const [availableCount, setAvailableCount] = useState(null);
 
   React.useEffect(() => {
     if (selectedRoom) {
       setFormData(prev => ({ ...prev, roomType: selectedRoom.id }));
     }
   }, [selectedRoom]);
+
+  // Check availability when dates change
+  React.useEffect(() => {
+    if (formData.roomType && formData.checkIn && formData.checkOut) {
+      const available = getAvailableRoomCount(formData.roomType, formData.checkIn, formData.checkOut);
+      setAvailableCount(available);
+    } else {
+      setAvailableCount(null);
+    }
+  }, [formData.roomType, formData.checkIn, formData.checkOut]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,6 +49,16 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check availability before booking
+    if (availableCount === 0) {
+      toast({
+        title: "Room Not Available",
+        description: "This room type is fully booked for the selected dates. Please choose different dates.",
         variant: "destructive"
       });
       return;
@@ -69,6 +92,7 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
       email: '',
       phone: ''
     });
+    setAvailableCount(null);
     
     onOpenChange(false);
   };
@@ -96,7 +120,7 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
                 <SelectContent>
                   {roomTypes.map((room) => (
                     <SelectItem key={room.id} value={room.id}>
-                      {room.type} - ${room.price}/night ({room.available} available)
+                      {room.type} - ${room.price}/night
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -146,6 +170,19 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
                 </Popover>
               </div>
             </div>
+
+            {/* Availability Alert */}
+            {availableCount !== null && (
+              <Alert className={availableCount === 0 ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}>
+                <AlertCircle className={`h-4 w-4 ${availableCount === 0 ? "text-red-600" : "text-green-600"}`} />
+                <AlertDescription className={availableCount === 0 ? "text-red-800" : "text-green-800"}>
+                  {availableCount === 0 
+                    ? "No rooms available for selected dates. Please choose different dates."
+                    : `${availableCount} room${availableCount > 1 ? 's' : ''} available for selected dates`
+                  }
+                </AlertDescription>
+              </Alert>
+            )}
 
             <div>
               <Label htmlFor="guests">Number of Guests *</Label>
@@ -197,7 +234,7 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
             </div>
           </div>
 
-          {selectedRoomData && formData.checkIn && formData.checkOut && (
+          {selectedRoomData && formData.checkIn && formData.checkOut && availableCount > 0 && (
             <div className="bg-peach-50 p-4 rounded-lg border border-peach-200">
               <h3 className="font-semibold text-green-800 mb-2">Booking Summary</h3>
               <div className="space-y-1 text-sm">
@@ -216,7 +253,11 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-green-600 hover:bg-green-700">
+            <Button 
+              type="submit" 
+              className="bg-green-600 hover:bg-green-700"
+              disabled={availableCount === 0}
+            >
               Confirm Booking
             </Button>
           </DialogFooter>
