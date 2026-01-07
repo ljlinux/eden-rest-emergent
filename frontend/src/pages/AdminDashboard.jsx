@@ -9,39 +9,61 @@ import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popove
 import { Badge } from '../components/ui/badge';
 import { Calendar as CalendarIcon, LogOut, Ban, Trash2, Home, Sparkles } from 'lucide-react';
 import { format } from 'date-fns';
-import { roomTypes } from '../mock';
-import { createBlockedBooking, getBlockedBookings, deleteBlockedBooking } from '../mockAdmin';
 import { useToast } from '../hooks/use-toast';
+import {
+  getRooms,
+  getBlockedBookings,
+  createBlockedBooking,
+  deleteBlockedBooking,
+  adminLogout,
+  isAdminAuthenticated
+} from '../api';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [rooms, setRooms] = useState([]);
   const [blockedBookings, setBlockedBookings] = useState([]);
   const [blockForm, setBlockForm] = useState({
     roomType: '',
     roomUnit: '1',
     checkIn: null,
-    checkOut: null,
-    reason: ''
+    checkOut: null
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Check authentication
-    const isAuthenticated = localStorage.getItem('adminAuthenticated');
-    if (!isAuthenticated) {
+    if (!isAdminAuthenticated()) {
       navigate('/admin/login');
       return;
     }
     
-    loadBlockedBookings();
+    loadData();
   }, [navigate]);
 
-  const loadBlockedBookings = () => {
-    setBlockedBookings(getBlockedBookings());
+  const loadData = async () => {
+    try {
+      const [roomsData, blockedData] = await Promise.all([
+        getRooms(),
+        getBlockedBookings()
+      ]);
+      setRooms(roomsData);
+      setBlockedBookings(blockedData);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        toast({
+          title: "Session Expired",
+          description: "Please login again",
+          variant: "destructive"
+        });
+        navigate('/admin/login');
+      }
+    }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('adminAuthenticated');
+    adminLogout();
     toast({
       title: "Logged Out",
       description: "You have been logged out successfully",
@@ -49,7 +71,7 @@ const AdminDashboard = () => {
     navigate('/admin/login');
   };
 
-  const handleBlockRoom = (e) => {
+  const handleBlockRoom = async (e) => {
     e.preventDefault();
     
     if (!blockForm.roomType || !blockForm.checkIn || !blockForm.checkOut) {
@@ -61,46 +83,64 @@ const AdminDashboard = () => {
       return;
     }
 
-    const selectedRoom = roomTypes.find(r => r.id === blockForm.roomType);
+    const selectedRoom = rooms.find(r => r.id === blockForm.roomType);
     const roomId = `${blockForm.roomType}-unit-${blockForm.roomUnit}`;
     
-    createBlockedBooking({
-      roomId,
-      roomType: blockForm.roomType,
-      roomName: selectedRoom.type,
-      roomUnit: blockForm.roomUnit,
-      checkIn: blockForm.checkIn.toISOString(),
-      checkOut: blockForm.checkOut.toISOString(),
-      reason: blockForm.reason || 'Offline booking'
-    });
+    setIsLoading(true);
+    try {
+      await createBlockedBooking({
+        roomId,
+        roomType: blockForm.roomType,
+        roomName: selectedRoom.type,
+        roomUnit: blockForm.roomUnit,
+        checkIn: blockForm.checkIn.toISOString(),
+        checkOut: blockForm.checkOut.toISOString(),
+        reason: 'Offline booking'
+      });
 
-    toast({
-      title: "Room Blocked",
-      description: `${selectedRoom.type} (Unit ${blockForm.roomUnit}) blocked successfully`,
-    });
+      toast({
+        title: "Room Blocked",
+        description: `${selectedRoom.type} (Unit ${blockForm.roomUnit}) blocked successfully`,
+      });
 
-    // Reset form
-    setBlockForm({
-      roomType: '',
-      roomUnit: '1',
-      checkIn: null,
-      checkOut: null,
-      reason: ''
-    });
-    
-    loadBlockedBookings();
+      // Reset form and reload data
+      setBlockForm({
+        roomType: '',
+        roomUnit: '1',
+        checkIn: null,
+        checkOut: null
+      });
+      
+      await loadData();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.detail || "Failed to block room",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleUnblock = (blockId) => {
-    deleteBlockedBooking(blockId);
-    toast({
-      title: "Room Unblocked",
-      description: "Room is now available for booking",
-    });
-    loadBlockedBookings();
+  const handleUnblock = async (blockId) => {
+    try {
+      await deleteBlockedBooking(blockId);
+      toast({
+        title: "Room Unblocked",
+        description: "Room is now available for booking",
+      });
+      await loadData();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to unblock room",
+        variant: "destructive"
+      });
+    }
   };
 
-  const selectedRoom = roomTypes.find(r => r.id === blockForm.roomType);
+  const selectedRoom = rooms.find(r => r.id === blockForm.roomType);
   const roomUnits = selectedRoom ? Array.from({ length: selectedRoom.available }, (_, i) => i + 1) : [];
 
   return (
@@ -152,7 +192,7 @@ const AdminDashboard = () => {
                       <SelectValue placeholder="Select a room type" />
                     </SelectTrigger>
                     <SelectContent>
-                      {roomTypes.map((room) => (
+                      {rooms.map((room) => (
                         <SelectItem key={room.id} value={room.id}>
                           {room.type} ({room.available} units available)
                         </SelectItem>
@@ -232,9 +272,13 @@ const AdminDashboard = () => {
                   </div>
                 )}
 
-                <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
+                <Button 
+                  type="submit" 
+                  className="w-full bg-red-600 hover:bg-red-700"
+                  disabled={isLoading}
+                >
                   <Ban className="h-4 w-4 mr-2" />
-                  Block This Room
+                  {isLoading ? 'Blocking...' : 'Block This Room'}
                 </Button>
               </form>
             </CardContent>
@@ -303,7 +347,7 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {roomTypes.map((room) => {
+              {rooms.map((room) => {
                 const blockedUnits = blockedBookings.filter(b => b.roomType === room.id);
                 const uniqueBlockedUnits = [...new Set(blockedUnits.map(b => b.roomUnit))];
                 const availableUnits = room.available - uniqueBlockedUnits.length;
