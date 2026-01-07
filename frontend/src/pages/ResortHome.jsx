@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Phone, Mail, Star, Users, Wifi, Coffee, Waves, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import BookingDialog from '../components/BookingDialog';
-import { resortInfo, roomTypes, testimonials, galleryImages } from '../mock';
+import { resortInfo, testimonials, galleryImages } from '../mock';
+import { getRooms } from '../api';
 
 const ResortHome = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    const loadRooms = async () => {
+      try {
+        const roomsData = await getRooms();
+        setRooms(roomsData);
+      } catch (error) {
+        console.error('Error loading rooms:', error);
+      }
+    };
+    loadRooms();
+  }, []);
 
   const handleBookNow = (room) => {
     setSelectedRoom(room);
@@ -73,7 +87,7 @@ const ResortHome = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {roomTypes.map((room) => (
+            {rooms.map((room) => (
               <Card key={room.id} className="overflow-hidden hover:shadow-2xl transition-shadow duration-300 border-peach-200">
                 <div className="relative h-64 overflow-hidden">
                   <img 

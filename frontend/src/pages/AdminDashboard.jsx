@@ -15,6 +15,8 @@ import {
   getBlockedBookings,
   createBlockedBooking,
   deleteBlockedBooking,
+  getBookings,
+  cancelBooking,
   adminLogout,
   isAdminAuthenticated
 } from '../api';
@@ -24,6 +26,7 @@ const AdminDashboard = () => {
   const { toast } = useToast();
   const [rooms, setRooms] = useState([]);
   const [blockedBookings, setBlockedBookings] = useState([]);
+  const [customerBookings, setCustomerBookings] = useState([]);
   const [blockForm, setBlockForm] = useState({
     roomType: '',
     roomUnit: '1',
@@ -44,12 +47,14 @@ const AdminDashboard = () => {
 
   const loadData = async () => {
     try {
-      const [roomsData, blockedData] = await Promise.all([
+      const [roomsData, blockedData, bookingsData] = await Promise.all([
         getRooms(),
-        getBlockedBookings()
+        getBlockedBookings(),
+        getBookings()
       ]);
       setRooms(roomsData);
       setBlockedBookings(blockedData);
+      setCustomerBookings(bookingsData);
     } catch (error) {
       if (error.response?.status === 401) {
         toast({
@@ -140,6 +145,27 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleCancelBooking = async (bookingId) => {
+    if (!window.confirm('Are you sure you want to cancel this booking?')) {
+      return;
+    }
+
+    try {
+      await cancelBooking(bookingId);
+      toast({
+        title: "Booking Cancelled",
+        description: "The booking has been cancelled successfully",
+      });
+      await loadData();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to cancel booking",
+        variant: "destructive"
+      });
+    }
+  };
+
   const selectedRoom = rooms.find(r => r.id === blockForm.roomType);
   const roomUnits = selectedRoom ? Array.from({ length: selectedRoom.available }, (_, i) => i + 1) : [];
 
@@ -171,6 +197,87 @@ const AdminDashboard = () => {
       </header>
 
       <div className="container mx-auto px-6 py-8">
+        {/* Customer Bookings Section */}
+        <Card className="mb-8 border-peach-200 shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-green-800">Customer Bookings</CardTitle>
+            <CardDescription>
+              View and manage all customer reservations
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {customerBookings.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Calendar className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                  <p>No bookings yet</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {customerBookings.map((booking) => (
+                    <Card key={booking.id} className="border-green-200 bg-white">
+                      <CardHeader>
+                        <CardTitle className="text-lg text-green-800 flex items-center justify-between">
+                          {booking.roomName}
+                          <Badge className="bg-green-600">
+                            {booking.status}
+                          </Badge>
+                        </CardTitle>
+                        <CardDescription>
+                          Booking ID: {booking.id.substring(0, 8)}...
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2 text-sm">
+                          <p>
+                            <span className="font-medium">Guest:</span> {booking.fullName}
+                          </p>
+                          <p>
+                            <span className="font-medium">Email:</span> {booking.email}
+                          </p>
+                          {booking.phone && (
+                            <p>
+                              <span className="font-medium">Phone:</span> {booking.phone}
+                            </p>
+                          )}
+                          <p>
+                            <span className="font-medium">Check-in:</span>{' '}
+                            {format(new Date(booking.checkIn), 'PPP')}
+                          </p>
+                          <p>
+                            <span className="font-medium">Check-out:</span>{' '}
+                            {format(new Date(booking.checkOut), 'PPP')}
+                          </p>
+                          <p>
+                            <span className="font-medium">Nights:</span> {booking.nights}
+                          </p>
+                          <p>
+                            <span className="font-medium">Guests:</span> {booking.guests}
+                          </p>
+                          <p className="text-lg font-bold text-green-700 pt-2">
+                            Total: ${booking.totalPrice}
+                          </p>
+                        </div>
+                      </CardContent>
+                      <CardFooter>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="w-full"
+                          onClick={() => handleCancelBooking(booking.id)}
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          Cancel Booking
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Block Room Form */}
           <Card className="border-peach-200 shadow-lg">
