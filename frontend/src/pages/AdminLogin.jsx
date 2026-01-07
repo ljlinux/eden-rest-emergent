@@ -5,7 +5,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Button } from '../components/ui/button';
 import { Sparkles, Lock } from 'lucide-react';
-import { authenticateAdmin } from '../mockAdmin';
+import { adminLogin } from '../api';
 import { useToast } from '../hooks/use-toast';
 
 const AdminLogin = () => {
@@ -15,23 +15,27 @@ const AdminLogin = () => {
     username: '',
     password: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    if (authenticateAdmin(credentials.username, credentials.password)) {
-      localStorage.setItem('adminAuthenticated', 'true');
+    try {
+      await adminLogin(credentials.username, credentials.password);
       toast({
         title: "Login Successful",
         description: "Welcome to Eden Rest Admin Panel",
       });
       navigate('/admin/dashboard');
-    } else {
+    } catch (error) {
       toast({
         title: "Login Failed",
-        description: "Invalid username or password",
+        description: error.detail || "Invalid username or password",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,6 +60,7 @@ const AdminLogin = () => {
                 value={credentials.username}
                 onChange={(e) => setCredentials({...credentials, username: e.target.value})}
                 required
+                disabled={isLoading}
               />
             </div>
             
@@ -68,6 +73,7 @@ const AdminLogin = () => {
                 value={credentials.password}
                 onChange={(e) => setCredentials({...credentials, password: e.target.value})}
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -79,8 +85,12 @@ const AdminLogin = () => {
               </p>
             </div>
             
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
-              Login to Admin Panel
+            <Button 
+              type="submit" 
+              className="w-full bg-green-600 hover:bg-green-700"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Login to Admin Panel'}
             </Button>
             
             <Button 
@@ -88,6 +98,7 @@ const AdminLogin = () => {
               variant="outline" 
               className="w-full"
               onClick={() => navigate('/')}
+              disabled={isLoading}
             >
               Back to Home
             </Button>
