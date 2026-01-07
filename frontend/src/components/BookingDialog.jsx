@@ -6,15 +6,15 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Calendar } from './ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Calendar as CalendarIcon, Users, AlertCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
-import { roomTypes, createBooking } from '../mock';
-import { getAvailableRoomCount } from '../mockAdmin';
 import { useToast } from '../hooks/use-toast';
 import { Alert, AlertDescription } from './ui/alert';
+import { checkRoomAvailability, createBooking, getRooms } from '../api';
 
 const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
   const { toast } = useToast();
+  const [rooms, setRooms] = React.useState([]);
   const [formData, setFormData] = useState({
     roomType: selectedRoom?.id || '',
     checkIn: null,
@@ -25,6 +25,21 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
     phone: ''
   });
   const [availableCount, setAvailableCount] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+
+  // Load rooms on mount
+  React.useEffect(() => {
+    const loadRooms = async () => {
+      try {
+        const roomsData = await getRooms();
+        setRooms(roomsData);
+      } catch (error) {
+        console.error('Error loading rooms:', error);
+      }
+    };
+    loadRooms();
+  }, []);
 
   React.useEffect(() => {
     if (selectedRoom) {
@@ -34,15 +49,26 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
 
   // Check availability when dates change
   React.useEffect(() => {
-    if (formData.roomType && formData.checkIn && formData.checkOut) {
-      const available = getAvailableRoomCount(formData.roomType, formData.checkIn, formData.checkOut);
-      setAvailableCount(available);
-    } else {
-      setAvailableCount(null);
-    }
+    const checkAvailability = async () => {
+      if (formData.roomType && formData.checkIn && formData.checkOut) {
+        setIsCheckingAvailability(true);
+        try {
+          const result = await checkRoomAvailability(formData.roomType, formData.checkIn, formData.checkOut);
+          setAvailableCount(result.availableUnits);
+        } catch (error) {
+          console.error('Error checking availability:', error);
+          setAvailableCount(null);
+        } finally {
+          setIsCheckingAvailability(false);
+        }
+      } else {
+        setAvailableCount(null);
+      }
+    };
+    checkAvailability();
   }, [formData.roomType, formData.checkIn, formData.checkOut]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.roomType || !formData.checkIn || !formData.checkOut || !formData.fullName || !formData.email) {
@@ -64,40 +90,48 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
       return;
     }
 
-    const selectedRoomData = roomTypes.find(r => r.id === formData.roomType);
-    const nights = Math.ceil((formData.checkOut - formData.checkIn) / (1000 * 60 * 60 * 24));
-    const totalPrice = nights * selectedRoomData.price;
+    setIsSubmitting(true);
+    try {
+      const booking = await createBooking({
+        roomType: formData.roomType,
+        checkIn: formData.checkIn.toISOString(),
+        checkOut: formData.checkOut.toISOString(),
+        guests: formData.guests,
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone
+      });
 
-    const booking = createBooking({
-      ...formData,
-      checkIn: formData.checkIn.toISOString(),
-      checkOut: formData.checkOut.toISOString(),
-      roomName: selectedRoomData.type,
-      nights,
-      totalPrice
-    });
+      toast({
+        title: "Booking Confirmed!",
+        description: `Your reservation has been confirmed. Booking ID: ${booking.id}`,
+      });
 
-    toast({
-      title: "Booking Confirmed!",
-      description: `Your reservation for ${selectedRoomData.type} has been confirmed. Booking ID: ${booking.id}`,
-    });
-
-    // Reset form
-    setFormData({
-      roomType: '',
-      checkIn: null,
-      checkOut: null,
-      guests: '1',
-      fullName: '',
-      email: '',
-      phone: ''
-    });
-    setAvailableCount(null);
-    
-    onOpenChange(false);
+      // Reset form
+      setFormData({
+        roomType: '',
+        checkIn: null,
+        checkOut: null,
+        guests: '1',
+        fullName: '',
+        email: '',
+        phone: ''
+      });
+      setAvailableCount(null);
+      
+      onOpenChange(false);
+    } catch (error) {
+      toast({
+        title: "Booking Failed",
+        description: error.detail || "Failed to create booking. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const selectedRoomData = roomTypes.find(r => r.id === formData.roomType);
+  const selectedRoomData = rooms.find(r => r.id === formData.roomType);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -118,7 +152,7 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
                   <SelectValue placeholder="Select a room type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {roomTypes.map((room) => (
+                  {rooms.map((room) => (
                     <SelectItem key={room.id} value={room.id}>
                       {room.type} - ${room.price}/night
                     </SelectItem>
@@ -172,7 +206,16 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
             </div>
 
             {/* Availability Alert */}
-            {availableCount !== null && (
+            {isCheckingAvailability && (
+              <Alert className="border-blue-500 bg-blue-50">
+                <AlertCircle className="h-4 w-4 text-blue-600" />
+                <AlertDescription className="text-blue-800">
+                  Checking availability...
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            {!isCheckingAvailability && availableCount !== null && (
               <Alert className={availableCount === 0 ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}>
                 <AlertCircle className={`h-4 w-4 ${availableCount === 0 ? "text-red-600" : "text-green-600"}`} />
                 <AlertDescription className={availableCount === 0 ? "text-red-800" : "text-green-800"}>
@@ -250,15 +293,15 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
           )}
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button 
               type="submit" 
               className="bg-green-600 hover:bg-green-700"
-              disabled={availableCount === 0}
+              disabled={availableCount === 0 || isSubmitting}
             >
-              Confirm Booking
+              {isSubmitting ? 'Processing...' : 'Confirm Booking'}
             </Button>
           </DialogFooter>
         </form>
