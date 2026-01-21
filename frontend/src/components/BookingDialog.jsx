@@ -137,9 +137,9 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl text-green-800">Book Your Stay</DialogTitle>
+          <DialogTitle className="text-2xl text-green-800">Book Your Ooty Trip</DialogTitle>
           <DialogDescription>
-            Complete the form below to reserve your room at Eden Rest
+            Complete the form below to reserve your accommodation for Trip to Ooty
           </DialogDescription>
         </DialogHeader>
         

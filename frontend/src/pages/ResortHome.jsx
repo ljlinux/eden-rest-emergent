@@ -82,8 +82,8 @@ const ResortHome = () => {
       <section id="rooms" className="py-20 px-6 bg-white">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-green-800 mb-4">Our Accommodations</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Choose from our carefully designed rooms, each offering comfort and elegance</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-green-800 mb-4">Stay Packages</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Choose from our comfortable accommodation options for your Ooty trip</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -138,8 +138,8 @@ const ResortHome = () => {
       <section id="gallery" className="py-20 px-6 bg-peach-50">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-green-800 mb-4">Gallery</h2>
-            <p className="text-xl text-gray-600">Discover the beauty of Eden Rest</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-green-800 mb-4">Ooty Highlights</h2>
+            <p className="text-xl text-gray-600">Discover the beauty of Ooty with our curated experiences</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -226,23 +226,23 @@ const ResortHome = () => {
                 </div>
                 
                 <div className="bg-peach-50 p-6 rounded-lg">
-                  <h3 className="font-semibold text-green-800 mb-4 text-lg">Why Choose Eden Rest?</h3>
+                  <h3 className="font-semibold text-green-800 mb-4 text-lg">Why Choose Trip to Ooty?</h3>
                   <ul className="space-y-3">
                     <li className="flex items-center gap-2">
                       <Wifi className="h-5 w-5 text-green-600" />
-                      <span className="text-gray-700">Free High-Speed WiFi</span>
+                      <span className="text-gray-700">Hassle-Free Trip Planning</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Coffee className="h-5 w-5 text-green-600" />
-                      <span className="text-gray-700">Complimentary Breakfast</span>
+                      <span className="text-gray-700">Comfortable Accommodations</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Waves className="h-5 w-5 text-green-600" />
-                      <span className="text-gray-700">Infinity Pool & Spa</span>
+                      <span className="text-gray-700">Guided Sightseeing Tours</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Sparkles className="h-5 w-5 text-green-600" />
-                      <span className="text-gray-700">24/7 Concierge Service</span>
+                      <span className="text-gray-700">Local Expert Assistance</span>
                     </li>
                   </ul>
                 </div>

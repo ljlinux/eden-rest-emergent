@@ -45,7 +45,7 @@ const AdminLogin = () => {
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sparkles className="h-8 w-8 text-green-600" />
-            <h1 className="text-2xl font-bold text-green-800">Eden Rest</h1>
+            <h1 className="text-2xl font-bold text-green-800">Trip to Ooty</h1>
           </div>
           <CardTitle className="text-xl text-green-800">Admin Login</CardTitle>
           <CardDescription>Enter your credentials to access the admin panel</CardDescription>

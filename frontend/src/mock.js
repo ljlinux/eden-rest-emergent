@@ -1,13 +1,13 @@
 // Mock data for Eden Rest Resort
 
 export const resortInfo = {
-  name: "Eden Rest",
-  tagline: "Where Comfort Meets Tranquility",
-  description: "Experience timeless elegance and warm hospitality at Eden Rest, your perfect retreat for relaxation and rejuvenation.",
-  location: "Nestled in the heart of nature's paradise",
-  phone: "+1 (555) 123-4567",
-  email: "info@edenrest.com",
-  address: "123 Paradise Valley Road, Serenity Hills"
+  name: "Trip to Ooty",
+  tagline: "Your Complete Ooty Experience",
+  description: "Plan your perfect Ooty getaway with our all-inclusive packages covering stay, travel, and sightseeing in the Queen of Hills.",
+  location: "Ooty (Udhagamandalam), Tamil Nadu",
+  phone: "+91 (423) 244-5678",
+  email: "info@triptoooty.com",
+  address: "123 Nilgiri Hills Road, Ooty, Tamil Nadu 643001"
 };
 
 export const roomTypes = [
@@ -36,34 +36,34 @@ export const roomTypes = [
 export const testimonials = [
   {
     id: 1,
-    name: "Sarah Mitchell",
-    location: "New York, USA",
+    name: "Priya Sharma",
+    location: "Bangalore, Karnataka",
     rating: 5,
-    comment: "Eden Rest exceeded all our expectations! The classic charm combined with modern comfort made our stay absolutely perfect. The staff was incredibly welcoming.",
+    comment: "Trip to Ooty made our vacation planning so easy! The accommodations were excellent, and the sightseeing packages were well organized. Highly recommended!",
     date: "2024-11-15"
   },
   {
     id: 2,
-    name: "James Chen",
-    location: "Toronto, Canada",
+    name: "Rajesh Kumar",
+    location: "Chennai, Tamil Nadu",
     rating: 5,
-    comment: "A truly peaceful retreat. The rooms were immaculate, and the attention to detail was remarkable. We'll definitely be returning!",
+    comment: "Amazing experience! The package included everything from comfortable stay to guided tours of tea gardens and viewpoints. Worth every penny!",
     date: "2024-10-28"
   },
   {
     id: 3,
-    name: "Emma Thompson",
-    location: "London, UK",
+    name: "Anjali Patel",
+    location: "Mumbai, Maharashtra",
     rating: 5,
-    comment: "The perfect blend of traditional elegance and contemporary amenities. The resort's serene atmosphere helped us completely unwind.",
+    comment: "Perfect family vacation to Ooty! The team handled everything beautifully - from airport pickup to drop. The rooms were clean and the locations chosen were spectacular.",
     date: "2024-10-10"
   },
   {
     id: 4,
-    name: "Michael Rodriguez",
-    location: "Miami, USA",
+    name: "Arjun Reddy",
+    location: "Hyderabad, Telangana",
     rating: 5,
-    comment: "Outstanding service and beautiful accommodations. The dining experience was exceptional, and the facilities were top-notch.",
+    comment: "Best trip organizer for Ooty! They know all the hidden gems and the stay was comfortable. The botanical garden and lake tour was unforgettable.",
     date: "2024-09-22"
   }
 ];
