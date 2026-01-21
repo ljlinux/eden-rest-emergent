@@ -1,39 +1,39 @@
-# Eden Rest Resort Booking Website - Product Requirements Document
+# Trip to Ooty - Product Requirements Document
 
 ## Original Problem Statement
-Build a resort booking page - single page site for Eden Rest resort with peach and green as primary colors, classic/traditional design style.
+Build a trip organizing website for Ooty with packages covering staying, traveling, and sightseeing. Focus on helping visitors plan their complete Ooty experience.
 
 ## User Requirements
-- **Sections**: Hero, Room types, Booking form, Gallery, Testimonials, Contact
+- **Sections**: Hero, Stay Packages, Booking form, Gallery (Ooty highlights), Testimonials, Contact
 - **Design Style**: Classic/Traditional (timeless, warm)
-- **Booking**: Full booking system with backend integration
-- **Resort Details**: 
-  - Name: Eden Rest
+- **Booking**: Full booking system with backend integration for accommodation
+- **Location Details**: 
+  - Destination: Ooty (Udhagamandalam), Tamil Nadu
   - Rooms: 5 Double rooms, 4 Single rooms
 - **Colors**: Peach and green as primary colors
 
 ## User Personas
-1. **Leisure Traveler**: Looking for a comfortable, elegant resort for vacation
-2. **Business Traveler**: Needs convenient booking and quality accommodations
-3. **Couple/Family**: Seeking peaceful retreat with amenities
+1. **Family Travelers**: Looking for comprehensive trip packages to Ooty
+2. **Couples**: Seeking romantic getaway packages with sightseeing
+3. **Solo Travelers**: Need hassle-free trip planning with accommodation
 
 ## Architecture & Tech Stack
 - **Frontend**: React with Shadcn UI components
-- **Backend**: FastAPI with MongoDB (to be implemented)
+- **Backend**: FastAPI with MongoDB
 - **Styling**: Tailwind CSS with custom peach/green color palette
 - **State Management**: React hooks
-- **Form Handling**: React Hook Form with date-fns
+- **Authentication**: JWT for admin panel
 
 ## What's Been Implemented (January 2025)
 
-### Frontend Components (With MOCK DATA)
+### Frontend Components (With Real API Integration)
 ✅ **Landing Page** (`/app/frontend/src/pages/ResortHome.jsx`)
   - Fixed header with navigation
-  - Hero section with resort imagery
-  - Rooms showcase with 2 room types (5 Double rooms, 4 Single rooms)
-  - Photo gallery (8 images)
-  - Testimonials section (4 reviews)
-  - Contact section with resort information
+  - Hero section with Ooty trip branding
+  - Stay Packages showcase with 2 room types (5 Double rooms, 4 Single rooms)
+  - Photo gallery (Ooty highlights - 8 images)
+  - Testimonials section (4 reviews from Indian cities)
+  - Contact section with trip organizer information
   - Footer with links
 
 ✅ **Booking Dialog** (`/app/frontend/src/components/BookingDialog.jsx`)
@@ -44,99 +44,88 @@ Build a resort booking page - single page site for Eden Rest resort with peach a
   - Booking summary with price calculation
   - Real-time availability checking based on blocked rooms
   - Toast notifications for confirmations
+  - **Connected to Backend API**
 
 ✅ **Admin Panel** (`/app/frontend/src/pages/AdminLogin.jsx` & `AdminDashboard.jsx`)
-  - Simple authentication (username: admin, password: admin123)
+  - JWT authentication (username: admin, password: admin123)
+  - **Customer Bookings Management**:
+    - View all customer bookings
+    - Booking details (guest info, dates, price)
+    - Cancel bookings functionality
   - Room blocking interface for offline bookings
   - Select room type and specific unit to block
   - Date range selection for blocking
   - List of currently blocked rooms with unblock option
   - Room status overview showing available/blocked units visually
   - Navigation between admin panel and main website
+  - **All Connected to Backend API**
 
-✅ **Mock Data** (`/app/frontend/src/mock.js` & `/app/frontend/src/mockAdmin.js`)
-  - Resort information
-  - 2 room types (5 Double, 4 Single)
-  - 4 testimonials
-  - 8 gallery images
-  - Mock booking storage (frontend-only)
-  - Mock blocked bookings with date conflict detection
-  - Availability calculation based on blocked rooms
+### Backend Implementation
+✅ **MongoDB Models** (`/app/backend/models.py`)
+  - Rooms collection
+  - Bookings collection
+  - Blocked Bookings collection
+  - Admin authentication
 
-✅ **Styling & Theme**
-  - Custom peach color palette (50-600)
-  - Custom green color palette (50-900)
-  - Classic/traditional design aesthetics
-  - Smooth transitions and hover effects
-  - Responsive design
+✅ **API Endpoints** (`/app/backend/routes.py`)
+  - `POST /api/admin/login` - Admin authentication
+  - `GET /api/rooms` - Get all rooms
+  - `GET /api/rooms/availability` - Check availability for dates
+  - `POST /api/bookings` - Create booking
+  - `GET /api/bookings` - Get all bookings (admin)
+  - `GET /api/bookings/{id}` - Get specific booking
+  - `DELETE /api/bookings/{id}` - Cancel booking (admin)
+  - `POST /api/admin/blocked-bookings` - Block room unit
+  - `GET /api/admin/blocked-bookings` - Get blocked rooms
+  - `DELETE /api/admin/blocked-bookings/{id}` - Unblock room
 
-## API Contracts (To Be Implemented)
-
-### Room Management
-- `GET /api/rooms` - List all rooms with availability
-- `GET /api/rooms/{room_id}` - Get specific room details
-- `PUT /api/rooms/{room_id}/availability` - Update room availability
-
-### Booking Management
-- `POST /api/bookings` - Create new booking
-  - Request: `{roomType, checkIn, checkOut, guests, fullName, email, phone}`
-  - Response: `{id, status, totalPrice, confirmationCode}`
-- `GET /api/bookings/{booking_id}` - Get booking details
-- `GET /api/bookings` - List all bookings (admin)
-- `PUT /api/bookings/{booking_id}` - Update booking
-- `DELETE /api/bookings/{booking_id}` - Cancel booking
-
-### Gallery & Testimonials
-- `GET /api/gallery` - Get gallery images
-- `GET /api/testimonials` - Get testimonials
+✅ **API Integration** (`/app/frontend/src/api/index.js`)
+  - Complete API service layer
+  - JWT token management
+  - Error handling
+  - All CRUD operations
 
 ## Current State
-- **Frontend**: Fully functional with mock data
-- **Backend**: Not implemented (using mock.js for data)
-- **Database**: Schema not defined yet
+- **Frontend**: Fully functional with real backend API integration
+- **Backend**: Complete with MongoDB persistence
+- **Database**: All data stored in MongoDB
+- **Authentication**: JWT-based admin security
 
 ## Prioritized Backlog
 
-### P0 - Critical (Next Phase)
-1. **Backend API Development**
-   - MongoDB models for rooms, bookings, testimonials
-   - CRUD endpoints for booking management
-   - Room availability logic
-   - Email confirmation system (optional)
-
-2. **Frontend-Backend Integration**
-   - Replace mock.js with API calls
-   - Error handling for API failures
-   - Loading states during API calls
+### P0 - Critical
+1. MongoDB setup on production server (guide provided in `/app/MONGODB_SETUP.md`)
 
 ### P1 - Important
-1. Date conflict validation (prevent double bookings)
-2. Admin panel for booking management
-3. Payment integration (Stripe)
-4. Email notifications for confirmations
-5. Booking history for users
-6. Real-time availability updates
+1. Add travel packages (transportation options)
+2. Add sightseeing packages (tour itineraries)
+3. Payment integration (Razorpay/Stripe)
+4. Email notifications for booking confirmations
+5. Booking history for customers
+6. Package bundling (stay + travel + sightseeing)
 
 ### P2 - Nice to Have
-1. Multi-language support
-2. Reviews submission feature
+1. Multi-language support (Tamil, Hindi, English)
+2. Customer reviews submission feature
 3. Image upload for gallery
-4. Advanced search filters
+4. Package customization
 5. Seasonal pricing
 6. Special offers/discounts
-7. Virtual tour feature
+7. Virtual tour of Ooty attractions
 8. Mobile app
 
 ## Next Tasks
-1. ✅ Create PRD.md documentation
-2. Build backend MongoDB models and API endpoints
-3. Integrate frontend with backend APIs
-4. Test booking flow end-to-end
-5. Deploy to production
+1. Set up MongoDB on production server
+2. Add travel package management
+3. Add sightseeing tour packages
+4. Implement package bundling
+5. Add payment gateway
+6. Deploy to production
 
 ## Success Metrics
 - Booking completion rate
-- Average time to complete booking
+- Package conversion rate
 - User engagement (gallery views, testimonial reads)
 - Mobile responsiveness score
 - Page load time < 3 seconds
+- Customer satisfaction ratings

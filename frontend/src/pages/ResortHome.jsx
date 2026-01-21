@@ -73,7 +73,7 @@ const ResortHome = () => {
             onClick={() => scrollToSection('rooms')}
             className="bg-peach-500 hover:bg-peach-600 text-white text-lg px-8 py-6 shadow-xl"
           >
-            Explore Our Rooms
+            Explore Our Packages
           </Button>
         </div>
       </section>
