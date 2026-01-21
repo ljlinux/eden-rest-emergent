@@ -139,7 +139,7 @@ const BookingDialog = ({ open, onOpenChange, selectedRoom }) => {
         <DialogHeader>
           <DialogTitle className="text-2xl text-green-800">Book Your Ooty Trip</DialogTitle>
           <DialogDescription>
-            Complete the form below to reserve your accommodation for Trip to Ooty
+            Complete the form below to reserve your accommodation for Trip2Ooty
           </DialogDescription>
         </DialogHeader>
         

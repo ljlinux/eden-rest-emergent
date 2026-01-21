@@ -226,7 +226,7 @@ const ResortHome = () => {
                 </div>
                 
                 <div className="bg-peach-50 p-6 rounded-lg">
-                  <h3 className="font-semibold text-green-800 mb-4 text-lg">Why Choose Trip to Ooty?</h3>
+                  <h3 className="font-semibold text-green-800 mb-4 text-lg">Why Choose Trip2Ooty?</h3>
                   <ul className="space-y-3">
                     <li className="flex items-center gap-2">
                       <Wifi className="h-5 w-5 text-green-600" />

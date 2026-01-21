@@ -178,7 +178,7 @@ const AdminDashboard = () => {
             <div className="flex items-center gap-2">
               <Sparkles className="h-8 w-8 text-green-600" />
               <div>
-                <h1 className="text-2xl font-bold text-green-800">Trip to Ooty - Admin Panel</h1>
+                <h1 className="text-2xl font-bold text-green-800">Trip2Ooty - Admin Panel</h1>
                 <p className="text-sm text-gray-600">Booking & Room Management</p>
               </div>
             </div>

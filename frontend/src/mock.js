@@ -1,12 +1,12 @@
 // Mock data for Eden Rest Resort
 
 export const resortInfo = {
-  name: "Trip to Ooty",
+  name: "Trip2Ooty",
   tagline: "Your Complete Ooty Experience",
   description: "Plan your perfect Ooty getaway with our all-inclusive packages covering stay, travel, and sightseeing in the Queen of Hills.",
   location: "Ooty (Udhagamandalam), Tamil Nadu",
   phone: "+91 (423) 244-5678",
-  email: "info@triptoooty.com",
+  email: "info@trip2ooty.com",
   address: "123 Nilgiri Hills Road, Ooty, Tamil Nadu 643001"
 };
 
@@ -39,7 +39,7 @@ export const testimonials = [
     name: "Priya Sharma",
     location: "Bangalore, Karnataka",
     rating: 5,
-    comment: "Trip to Ooty made our vacation planning so easy! The accommodations were excellent, and the sightseeing packages were well organized. Highly recommended!",
+    comment: "Trip2Ooty made our vacation planning so easy! The accommodations were excellent, and the sightseeing packages were well organized. Highly recommended!",
     date: "2024-11-15"
   },
   {
