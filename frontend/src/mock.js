@@ -30,6 +30,141 @@ export const roomTypes = [
     amenities: ["Queen Size Bed", "Work Desk", "Air Conditioning", "Free WiFi", "Room Service"],
     image: "https://images.unsplash.com/photo-1698927100805-2a32718a7e05?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3MjQyMTd8MHwxfHNlYXJjaHwyfHxjb3p5JTIwaG90ZWwlMjByb29tfGVufDB8fHx8MTc2OTQ5NTUyNnww&ixlib=rb-4.1.0&q=85",
     maxGuests: 1
+  },
+  {
+    id: "villa-1",
+    type: "Villa",
+    available: 2,
+    price: 2499,
+    description: "Luxurious villa perfect for large families and groups. Spacious living area with multiple bedrooms",
+    amenities: ["5 Bedrooms", "Living Room", "Kitchen", "Private Garden", "BBQ Area", "Free WiFi", "24/7 Service"],
+    image: "https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?w=500&q=80",
+    maxGuests: 15
+  }
+];
+
+// Tour Packages
+export const tourPackages = [
+  {
+    id: "tour-1",
+    name: "Botanical Garden & Lake Tour",
+    category: "Couple Package",
+    duration: "Full Day (8 hours)",
+    price: 1500,
+    vehicleOptions: ["4 Seater", "6 Seater"],
+    description: "Romantic day tour covering Ooty's most scenic spots perfect for couples",
+    spots: [
+      "Ooty Botanical Garden",
+      "Ooty Lake - Boating",
+      "Rose Garden",
+      "Tea Factory Visit",
+      "Doddabetta Peak Viewpoint"
+    ],
+    includes: ["Professional Guide", "Entry Tickets", "Bottled Water", "Pickup & Drop"],
+    image: "https://images.unsplash.com/photo-1683863655647-b37baeb9fd99?w=500&q=80",
+    rating: 4.8,
+    reviews: 156
+  },
+  {
+    id: "tour-2",
+    name: "Tea Estate & Mountain Railway",
+    category: "Family Package",
+    duration: "Full Day (9 hours)",
+    price: 2500,
+    vehicleOptions: ["6 Seater", "12 Seater", "15 Seater"],
+    description: "Family-friendly tour including the famous Nilgiri Mountain Railway experience",
+    spots: [
+      "Tea Estate with Tasting",
+      "Nilgiri Mountain Railway Ride",
+      "Pykara Lake & Waterfalls",
+      "Tribal Museum",
+      "Chocolate Factory"
+    ],
+    includes: ["Toy Train Tickets", "Professional Guide", "Lunch", "Entry Tickets", "All Transfers"],
+    image: "https://images.unsplash.com/photo-1491497895121-1334fc14d8c9?w=500&q=80",
+    rating: 4.9,
+    reviews: 243
+  },
+  {
+    id: "tour-3",
+    name: "Nature & Wildlife Exploration",
+    category: "Family Package",
+    duration: "2 Days / 1 Night",
+    price: 4500,
+    vehicleOptions: ["6 Seater", "12 Seater", "15 Seater"],
+    description: "Extended tour for families wanting to explore Ooty's natural beauty and wildlife",
+    spots: [
+      "Mudumalai Wildlife Sanctuary",
+      "Emerald Lake",
+      "Avalanche Lake",
+      "Pine Forest",
+      "Shooting Point",
+      "Wax Museum"
+    ],
+    includes: ["2 Days Vehicle", "1 Night Accommodation", "All Meals", "Safari Tickets", "Guide"],
+    image: "https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?w=500&q=80",
+    rating: 4.7,
+    reviews: 189
+  },
+  {
+    id: "tour-4",
+    name: "Scenic Hills & Sunset Points",
+    category: "Couple Package",
+    duration: "Half Day (5 hours)",
+    price: 1200,
+    vehicleOptions: ["4 Seater", "6 Seater"],
+    description: "Evening tour perfect for couples to witness stunning Ooty sunsets",
+    spots: [
+      "Doddabetta Peak",
+      "Tea Museum",
+      "Shooting Point Sunset",
+      "Thunder World",
+      "Local Market Visit"
+    ],
+    includes: ["Sunset Viewpoint Access", "Guide", "Entry Tickets", "Snacks", "Photography Stops"],
+    image: "https://images.unsplash.com/photo-1706706112876-13e1d9ed1731?w=500&q=80",
+    rating: 4.6,
+    reviews: 134
+  }
+];
+
+// Vehicle Options
+export const vehicleOptions = [
+  {
+    id: "vehicle-1",
+    type: "4 Seater",
+    name: "Sedan",
+    capacity: 4,
+    pricePerDay: 2000,
+    description: "Comfortable sedan perfect for couples",
+    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=500&q=80"
+  },
+  {
+    id: "vehicle-2",
+    type: "6 Seater",
+    name: "SUV/MUV",
+    capacity: 6,
+    pricePerDay: 3000,
+    description: "Spacious SUV for small families",
+    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=500&q=80"
+  },
+  {
+    id: "vehicle-3",
+    type: "12 Seater",
+    name: "Tempo Traveller",
+    capacity: 12,
+    pricePerDay: 5000,
+    description: "Comfortable tempo traveller for large families",
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500&q=80"
+  },
+  {
+    id: "vehicle-4",
+    type: "15 Seater",
+    name: "Mini Bus",
+    capacity: 15,
+    pricePerDay: 6000,
+    description: "Mini bus ideal for group tours",
+    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=500&q=80"
   }
 ];
 

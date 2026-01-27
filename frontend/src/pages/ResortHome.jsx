@@ -47,8 +47,8 @@ const ResortHome = () => {
             </div>
             <nav className="hidden md:flex items-center gap-8">
               <button onClick={() => scrollToSection('rooms')} className="text-gray-700 hover:text-green-700 font-medium">Rooms</button>
+              <button onClick={() => navigate('/tours')} className="text-gray-700 hover:text-green-700 font-medium">Tours</button>
               <button onClick={() => scrollToSection('gallery')} className="text-gray-700 hover:text-green-700 font-medium">Gallery</button>
-              <button onClick={() => scrollToSection('testimonials')} className="text-gray-700 hover:text-green-700 font-medium">Reviews</button>
               <button onClick={() => navigate('/shop')} className="text-gray-700 hover:text-green-700 font-medium">Shop</button>
               <button onClick={() => scrollToSection('contact')} className="text-gray-700 hover:text-green-700 font-medium">Contact</button>
               <Button onClick={() => setIsBookingOpen(true)} className="bg-green-600 hover:bg-green-700">Book Now</Button>
@@ -89,7 +89,7 @@ const ResortHome = () => {
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">Choose from our comfortable accommodation options for your Ooty trip</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {rooms.map((room) => (
               <Card key={room.id} className="overflow-hidden hover:shadow-2xl transition-shadow duration-300 border-peach-200">
                 <div className="relative h-64 overflow-hidden">
