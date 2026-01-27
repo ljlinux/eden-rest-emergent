@@ -30,7 +30,7 @@ INITIAL_ROOMS = [
         "price": 199,
         "description": "Spacious double occupancy room with king-size bed, private balcony, and stunning views",
         "amenities": ["King Size Bed", "Private Balcony", "Air Conditioning", "Mini Bar", "Free WiFi", "Room Service"],
-        "image": "https://images.unsplash.com/photo-1618773928121-c32242e63f39?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBob3RlbCUyMHJvb20lMjBjbGFzc2ljfGVufDB8fHx8MTc2Nzc1NjI2M3ww&ixlib=rb-4.1.0&q=85",
+        "image": "https://images.unsplash.com/photo-1647792855184-af42f1720b91?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3MjQyMTd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwaG90ZWwlMjByb29tfGVufDB8fHx8MTc2OTQ5NTUyNnww&ixlib=rb-4.1.0&q=85",
         "maxGuests": 2
     },
     {
@@ -40,8 +40,18 @@ INITIAL_ROOMS = [
         "price": 129,
         "description": "Cozy single occupancy room perfect for solo travelers",
         "amenities": ["Queen Size Bed", "Work Desk", "Air Conditioning", "Free WiFi", "Room Service"],
-        "image": "https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw1fHxsdXh1cnklMjBob3RlbCUyMHJvb20lMjBjbGFzc2ljfGVufDB8fHx8MTc2Nzc1NjI2M3ww&ixlib=rb-4.1.0&q=85",
+        "image": "https://images.unsplash.com/photo-1698927100805-2a32718a7e05?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3MjQyMTd8MHwxfHNlYXJjaHwyfHxjb3p5JTIwaG90ZWwlMjByb29tfGVufDB8fHx8MTc2OTQ5NTUyNnww&ixlib=rb-4.1.0&q=85",
         "maxGuests": 1
+    },
+    {
+        "id": "villa-1",
+        "type": "Villa",
+        "available": 2,
+        "price": 2499,
+        "description": "Luxurious villa perfect for large families and groups. Spacious living area with multiple bedrooms",
+        "amenities": ["5 Bedrooms", "Living Room", "Kitchen", "Private Garden", "BBQ Area", "Free WiFi", "24/7 Service"],
+        "image": "https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?w=500&q=80",
+        "maxGuests": 15
     }
 ]
 
