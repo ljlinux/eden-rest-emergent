@@ -58,8 +58,8 @@ const ResortHome = () => {
       <section className="relative h-screen flex items-center justify-center overflow-hidden mt-16">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1757023375017-2a39c78e571c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwxfHxjbGFzc2ljJTIwcmVzb3J0fGVufDB8fHx8MTc2Nzc1NjI0OHww&ixlib=rb-4.1.0&q=85" 
-            alt="Eden Rest Resort" 
+            src="https://images.unsplash.com/photo-1617606139490-9c818f39ce03?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxvb3R5JTIwaGlsbHN8ZW58MHx8fHwxNzY5NDk1NTE4fDA&ixlib=rb-4.1.0&q=85" 
+            alt="Ooty Hills Landscape" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
