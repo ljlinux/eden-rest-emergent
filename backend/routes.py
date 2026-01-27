@@ -112,6 +112,9 @@ async def admin_login(credentials: AdminLogin):
 async def get_rooms():
     await initialize_rooms()
     rooms = await db.rooms.find({}, {"_id": 0}).to_list(100)
+    print(f"DEBUG: Retrieved {len(rooms)} rooms from database")
+    for room in rooms:
+        print(f"  - {room.get('type', 'Unknown')}: {room.get('id', 'No ID')}")
     return rooms
 
 
