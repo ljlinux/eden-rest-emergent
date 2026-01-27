@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, MapPin, Phone, Mail, Star, Users, Wifi, Coffee, Waves, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
@@ -8,6 +9,7 @@ import { resortInfo, testimonials, galleryImages } from '../mock';
 import { getRooms } from '../api';
 
 const ResortHome = () => {
+  const navigate = useNavigate();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [rooms, setRooms] = useState([]);
@@ -47,6 +49,7 @@ const ResortHome = () => {
               <button onClick={() => scrollToSection('rooms')} className="text-gray-700 hover:text-green-700 font-medium">Rooms</button>
               <button onClick={() => scrollToSection('gallery')} className="text-gray-700 hover:text-green-700 font-medium">Gallery</button>
               <button onClick={() => scrollToSection('testimonials')} className="text-gray-700 hover:text-green-700 font-medium">Reviews</button>
+              <button onClick={() => navigate('/shop')} className="text-gray-700 hover:text-green-700 font-medium">Shop</button>
               <button onClick={() => scrollToSection('contact')} className="text-gray-700 hover:text-green-700 font-medium">Contact</button>
               <Button onClick={() => setIsBookingOpen(true)} className="bg-green-600 hover:bg-green-700">Book Now</Button>
             </nav>

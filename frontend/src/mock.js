@@ -136,3 +136,134 @@ export const createBooking = (bookingData) => {
 export const getBookings = () => {
   return mockBookings;
 };
+
+// Shop Products (Souvenirs)
+export const products = [
+  {
+    id: "prod-1",
+    name: "Ooty Tea Box (500g)",
+    category: "Tea",
+    price: 450,
+    description: "Premium Nilgiri tea from Ooty's finest tea estates. Perfect blend for tea lovers.",
+    image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=500&q=80",
+    inStock: true,
+    rating: 4.8
+  },
+  {
+    id: "prod-2",
+    name: "Handmade Chocolate Box",
+    category: "Chocolates",
+    price: 350,
+    description: "Delicious homemade chocolates from Ooty. Box of 12 assorted flavors.",
+    image: "https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=500&q=80",
+    inStock: true,
+    rating: 4.9
+  },
+  {
+    id: "prod-3",
+    name: "Eucalyptus Oil (50ml)",
+    category: "Essential Oils",
+    price: 250,
+    description: "Pure eucalyptus oil from Nilgiri hills. Known for its therapeutic properties.",
+    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&q=80",
+    inStock: true,
+    rating: 4.7
+  },
+  {
+    id: "prod-4",
+    name: "Ooty Shawl",
+    category: "Textiles",
+    price: 1200,
+    description: "Warm woolen shawl handcrafted by local artisans. Perfect for cold weather.",
+    image: "https://images.unsplash.com/photo-1601924287623-2dd596cf1e4b?w=500&q=80",
+    inStock: true,
+    rating: 4.6
+  },
+  {
+    id: "prod-5",
+    name: "Honey Jar (500g)",
+    category: "Organic Products",
+    price: 400,
+    description: "Pure organic honey from Nilgiri hills. Rich in natural nutrients.",
+    image: "https://images.unsplash.com/photo-1587049352846-4a222e784e38?w=500&q=80",
+    inStock: true,
+    rating: 4.8
+  },
+  {
+    id: "prod-6",
+    name: "Miniature Toy Train",
+    category: "Souvenirs",
+    price: 550,
+    description: "Replica of the famous Nilgiri Mountain Railway toy train. Great collectible.",
+    image: "https://images.unsplash.com/photo-1546881952-fa9c4b6e49c1?w=500&q=80",
+    inStock: true,
+    rating: 4.5
+  },
+  {
+    id: "prod-7",
+    name: "Handmade Soap Set",
+    category: "Personal Care",
+    price: 300,
+    description: "Set of 3 handmade soaps with natural ingredients from Ooty.",
+    image: "https://images.unsplash.com/photo-1583334733440-72b0c2c0aab7?w=500&q=80",
+    inStock: true,
+    rating: 4.7
+  },
+  {
+    id: "prod-8",
+    name: "Spice Mix Pack",
+    category: "Spices",
+    price: 280,
+    description: "Authentic South Indian spice mix. Pack includes 5 different varieties.",
+    image: "https://images.unsplash.com/photo-1596040033229-a0b4e1c49b94?w=500&q=80",
+    inStock: true,
+    rating: 4.6
+  }
+];
+
+// Shopping Cart (local storage)
+export const getCart = () => {
+  const cart = localStorage.getItem('trip2ooty_cart');
+  return cart ? JSON.parse(cart) : [];
+};
+
+export const addToCart = (product, quantity = 1) => {
+  const cart = getCart();
+  const existingItem = cart.find(item => item.id === product.id);
+  
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({ ...product, quantity });
+  }
+  
+  localStorage.setItem('trip2ooty_cart', JSON.stringify(cart));
+  return cart;
+};
+
+export const removeFromCart = (productId) => {
+  const cart = getCart();
+  const updatedCart = cart.filter(item => item.id !== productId);
+  localStorage.setItem('trip2ooty_cart', JSON.stringify(updatedCart));
+  return updatedCart;
+};
+
+export const updateCartQuantity = (productId, quantity) => {
+  const cart = getCart();
+  const item = cart.find(item => item.id === productId);
+  
+  if (item) {
+    item.quantity = quantity;
+    if (quantity <= 0) {
+      return removeFromCart(productId);
+    }
+  }
+  
+  localStorage.setItem('trip2ooty_cart', JSON.stringify(cart));
+  return cart;
+};
+
+export const clearCart = () => {
+  localStorage.removeItem('trip2ooty_cart');
+  return [];
+};
