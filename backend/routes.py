@@ -94,8 +94,13 @@ async def verify_admin_token(authorization: Optional[str] = Header(None)):
 # Initialize rooms collection
 async def initialize_rooms():
     rooms_count = await db.rooms.count_documents({})
+    print(f"DEBUG initialize_rooms: Found {rooms_count} rooms in database")
     if rooms_count == 0:
+        print(f"DEBUG: Initializing with {len(INITIAL_ROOMS)} rooms")
         await db.rooms.insert_many(INITIAL_ROOMS)
+        print("DEBUG: Rooms initialized successfully")
+    else:
+        print(f"DEBUG: Skipping initialization, {rooms_count} rooms already exist")
 
 
 # Admin Authentication
